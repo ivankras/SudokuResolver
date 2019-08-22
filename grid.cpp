@@ -1,5 +1,5 @@
 #include "grid.h"
-#include "case.h"
+#include "box.h"
 #include <iostream>
 #include <vector>
 #include <string>
@@ -332,7 +332,7 @@ void Grid::showGrid() {
 	for (index i(0); i <= 8; ++i) {
 		for (index j(0); j <= 8; ++j) {
 			if (j == 2 || j == 5) {
-				separator = "   ";
+				separator = " | ";
 			}
 			else {
 				separator = " ";

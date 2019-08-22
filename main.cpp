@@ -1,19 +1,33 @@
 #include <iostream>
+#include <string>
 #include "grid.h"
 
-bool lineIsCorrect(std::string str) {
+bool lineIsCorrect(std::string& str) {
 	// TODO: allow spaces in the entered lines by ignoring them (maybe auxiliar vector)
+	std::string	processedStr{};
 
-	if (str.length() != 9) {
+	for (char c : str) {
+		if (c == ' ') {
+			continue;
+		} else {
+			processedStr.push_back(c);
+		}
+	}
+	//DEBUG std::cout << "Processed String: " << processedStr << std::endl;
+
+	if (processedStr.length() != 9) {
+		std::cout << "Length not 9 error" << std::endl;
 		return false;
 	}
 
-	for (char c : str) {
+	for (char c : processedStr) {
 		if (c != '1' && c != '2' && c != '3' && c != '4' && c != '5' && c != '6' && c != '7' && c != '8' && c != '9' && c != 'x') {
+			std::cout << "Wrong char error" << std::endl;
 			return false;
 		}
 	}
 
+	str = processedStr;
 	return true;
 }
 
@@ -24,7 +38,7 @@ void fillGrid(Grid& g) {
 
 	while (nbEnteredLines < 9) {
 		std::cout << "Line " << nbEnteredLines + 1 << ": " << std::endl;
-		std::cin >> input;
+		std::getline(std::cin, input);
 		if (lineIsCorrect(input)) {
 			for (index i(0); i < 9; ++i) {
 				g.setValBox(nbEnteredLines, i, g.getValBoxOfChar(input.at(i)));
