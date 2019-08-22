@@ -319,7 +319,7 @@ void Grid::resolveCompletely() {
 	int nbIteration = 0;
 	bool modification = true;
 
-	while (nbIteration < 20 && modification) {
+	while (nbIteration < 200 && modification) {
 		std::cout << "Iteration number " << nbIteration + 1 << ") : " << std::endl;
 		modification = iterate();
 		//DEBUG showGrid();
