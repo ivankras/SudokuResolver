@@ -1,15 +1,13 @@
 # Basic Sudoku solver
 
 ### What is it about ?
-In order to develop a bit my c++ level, I decided to do a quick script.
-The purpose is to solve, part or the whole, Sudoku grid.
-It uses techniques that everybody knows, and I added one more so it solves quite hard grid.
+The purpose is to solve a Sudoku grid.
+It uses known techniques. The idea is to get to resolve any solvable Sudoku grid.
 
 ### How to use it ?
-In the terminal you can enter, line by line, the different numbers you have, and haven't.
-Please note that the script won't verify if the grid you entered is correct itself.
-Even if you enter the same number twice in a row, column or square, the script will still try to solve the puzzle and won't prompt any errors.
+After compiling (e.g., CMake + Visual Studio), in the terminal, line by line, the different available numbers (and blanks) are given as input.
+The script won't verify if the entered grid is correct itself. That is, even if the same number is entered twice in a row, column or square, the script will still try to solve the puzzle and won't prompt any errors.
 
 ### Author
-ThomasBouriaud
+ivankras (fork from ThomasBouriaud's)
 

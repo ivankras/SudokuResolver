@@ -3,7 +3,6 @@
 #include "grid.h"
 
 bool lineIsCorrect(std::string& str) {
-	// TODO: allow spaces in the entered lines by ignoring them (maybe auxiliar vector)
 	std::string	processedStr{};
 
 	for (char c : str) {
@@ -40,6 +39,7 @@ void fillGrid(Grid& g) {
 		std::cout << "Line " << nbEnteredLines + 1 << ": " << std::endl;
 		std::getline(std::cin, input);
 		if (lineIsCorrect(input)) {
+			//DEBUG	std::cout << "Line " << nbEnteredLines + 1 << ": " << input << " (length " << input.length() << ")" << std::endl;
 			for (index i(0); i < 9; ++i) {
 				g.setValBox(nbEnteredLines, i, g.getValBoxOfChar(input.at(i)));
 			}
