@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <chrono>
 #include "grid.h"
 
 bool lineIsCorrect(std::string& str) {
@@ -185,8 +186,10 @@ int main() {
 		std::cin >> correctGrid;
 	}
 
-
+	std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
 	g.resolveCompletely();
+	std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
+	auto diff = std::chrono::duration_cast<std::chrono::nanoseconds>(t2 - t1).count();
 
 	std::cout << std::endl;
 	std::cout << std::endl;
@@ -194,6 +197,9 @@ int main() {
 
 	std::cout << "FINAL GRID... " << std::endl << std::endl;
 	g.showGrid();
+	std::cout << "Took " << diff/1000000.0 << " ms" << std::endl;
+	std::cout << "Took " << diff << " ns" << std::endl << std::endl;
+
 
 
 	return 0;
