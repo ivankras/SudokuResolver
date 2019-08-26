@@ -2,6 +2,7 @@
 #include "box.h"
 #include <iostream>
 #include <vector>
+#include <set>
 #include <string>
 #include <algorithm>
 
@@ -212,6 +213,52 @@ std::vector<valBox> Grid::getPossibleValuesForLine(boxGrid& c) {
 
 
 // Methods
+
+// Checks, separately, every line, column and square for repeated values
+// TODO: improve efficiency (e.g., associate each value of a line to its column and box, so that the traversal is done only once)
+bool Grid::isCorrect() {
+	// Line & column check
+	std::vector<std::set<valBox>> columnValuesSet(9);
+	std::vector<std::set<valBox>> squareValuesSet(9);
+	for (short i(0); i < 9; i++) {
+		columnValuesSet.at(i).clear();
+		squareValuesSet.at(i).clear();
+	}
+	for (short lineNb(0); lineNb < 9; lineNb++) {
+		std::vector<boxGrid> line = (this->_grid)[lineNb];
+		std::set<valBox> lineValuesSet{};
+		lineValuesSet.clear();
+		for (short colNb(0); colNb < 9; colNb++) {
+			valBox v = _grid.at(lineNb).at(colNb).getValue();
+			if (v != valBox::UNKNOWN) {
+				// Line check
+				if (lineValuesSet.count(v) != 0) {
+					//DEBUG	std::cout << "Wrong grid: repeated value in line " << lineNb << std::endl;
+					return false;
+				}
+
+				// Column check
+				if (columnValuesSet.at(colNb).count(v) != 0) {
+					//DEBUG	std::cout << "Wrong grid: repeated value in column " << colNb << std::endl;
+					return false;
+				}
+
+				// Square check
+				short squareNb{(lineNb/3)*3 + colNb/3};
+				//DEBUG	std::cout << "line: " << lineNb << ", column: " << colNb << ", square: " << squareNb << std::endl;
+				if (squareValuesSet.at(squareNb).count(v) != 0) {
+					//DEBUG	std::cout << "Wrong grid: repeated value in square " << squareNb << std::endl;
+					return false;
+				}
+
+				lineValuesSet.insert(v);
+				columnValuesSet.at(colNb).insert(v);
+				squareValuesSet.at(squareNb).insert(v);
+			}
+		}
+	}
+	return true;
+}
 
 // Every possible number for the box has to be passed
 // If this box already has a set of possible values, those are the only ones to be tested.
