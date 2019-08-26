@@ -17,6 +17,8 @@ public:
 	std::vector<valBox> getPossibleValuesForLine(boxGrid& c);
 
 	// ## methodes
+	bool isCorrect();
+
 	void setPossibleValues(boxGrid& c);
 	char getCharOfValBox(valBox v);
 	valBox getValBoxOfChar(char c);
@@ -29,6 +31,6 @@ public:
 	void showGrid();
 
 private:
-	std::vector<std::vector<boxGrid> > _grid;
+	std::vector<std::vector<boxGrid>> _grid;
 
 };

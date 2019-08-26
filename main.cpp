@@ -180,6 +180,10 @@ int main() {
 
 	while (correctGrid.at(0) != 'y' && correctGrid.at(0) != 'Y') {
 		fillGrid(g);
+		while (!g.isCorrect()) {
+			std::cout << "Error(s) in the provided grid.\nCheck that each number in a box is unique in its square (3x3), line and column." << std::endl;
+			fillGrid(g);	
+		}
 		g.showGrid();
 
 		std::cout << "Is this grid OK? (y/n) : ";
@@ -195,7 +199,7 @@ int main() {
 	std::cout << std::endl;
 	std::cout << std::endl;
 
-	std::cout << "FINAL GRID... " << std::endl << std::endl;
+	std::cout << "FINAL GRID: " << std::endl << std::endl;
 	g.showGrid();
 	std::cout << "Took " << diff/1000000.0 << " ms" << std::endl;
 	std::cout << "Took " << diff << " ns" << std::endl << std::endl;
