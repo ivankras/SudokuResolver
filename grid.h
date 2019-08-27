@@ -5,32 +5,84 @@
 
 class Grid {
 public:
+	// Grid: default constructor
+	//	Initialises the Sudoku grid (9x9) with default (UNKNOWN) values
 	Grid();
 
-	// Getters
+	// getSquare
+	//	\param c: box part of the square to be returned
+	//	\return : all eigth remaining values of the square of which 'c' is part
 	std::vector<valBox> getSquare(boxGrid& c);
+
+	// getLine
+	//  \param c: box part of the line to be returned
+	//	\return : all eigth remaining values of the line of which 'c' is part
 	std::vector<valBox> getLine(boxGrid& c);
+
+	// getColumn
+	//  \param c: box part of the column to be returned
+	//	\return : all eigth remaining values of the column of which 'c' is part
 	std::vector<valBox> getColumn(boxGrid& c);
 
+	// getPossibleValuesForSquare
+	//	\param c: box part of the square to be analysed
+	//	\return : all possible values for the square of which 'c' is part
 	std::vector<valBox> getPossibleValuesForSquare(boxGrid& c);
-	std::vector<valBox> getPossibleValuesForColumn(boxGrid& c);
+
+	// getPossibleValuesForLine
+	//	\param c: box part of the line to be analysed
+	//	\return : all possible values for the line of which 'c' is part
 	std::vector<valBox> getPossibleValuesForLine(boxGrid& c);
 
-	// ## methodes
+	// getPossibleValuesForColumn
+	//	\param c: box part of the column to be analysed
+	//	\return : all possible values for the column of which 'c' is part
+	std::vector<valBox> getPossibleValuesForColumn(boxGrid& c);
+
+	// isCorrect: checks every line, column and square for repeated values
+	//	\return : true if there are not repeated values in any line, column nor square
 	bool isCorrect();
 
+	// setPossibleValues: computes all possible values for a box 'c'
+	//	\param c: box to be analysed
+	//	If this box already has a set of possible values, those are the only ones to be tested
+	//	Otherwise, every value has to be tested
 	void setPossibleValues(boxGrid& c);
+
+	// getCharOfValBox: given a value (valBox), returns the equivalent character
+	//	\param v: value (valBox) to be converted
+	//	\return : converted character
+	// e.g.: valBox::ONE => '1' || valBox::UNKNOWN => 'x'
 	char getCharOfValBox(valBox v);
+
+	// getValBoxOfChar: given a character, returns the equivalent value (valBox)
+	//	\param c: character to be converted
+	//	\return : converted value (valBox)
+	// e.g.: '2' => valBox::TWO || 'x' => valBox::UNKNOWN
 	valBox getValBoxOfChar(char c);
+
+	// setValBox: sets a value (valBox) for the box in a given line and column
+	//	\param line: number of line of the box to be assigned
+	//	\param column: number of column of the box to be assigned
+	//	\param v: value to assign
 	void setValBox(index line, index column, valBox v);
 
-	bool iterate();
-	bool resolve();
+	// resolveCompletely: iterates until the grid is solved or not a value is set
 	void resolveCompletely();
 
+	// showGrid: human-readably prints the grid
 	void showGrid();
 
 private:
 	std::vector<std::vector<boxGrid>> _grid;
+	
+
+	// iterate: represents one attempt of solving the grid
+	//	\return : true if at least one valBox has been set on the iteration
+	bool iterate();
+
+	// resolve: from the possible values of each box, tries to determine each one permanently
+	//	\return : true if at least one valBox has been set while resolving
+	bool resolve();
 
 };
