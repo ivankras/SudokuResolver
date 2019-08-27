@@ -2,61 +2,57 @@
 #include <iostream>
 #include <string>
 
-// Box Class
-
-// Constructor
-boxGrid::boxGrid(index line, index column, valBox v)
+BoxGrid::BoxGrid(index line, index column, ValBox v)
 	:_line(line), _column(column), _value(v), _possibleValue() {};
 
-// Getters
-index boxGrid::getLine() {
+index BoxGrid::getLine() {
 	return _line;
 }
 
-index boxGrid::getColumn() {
+index BoxGrid::getColumn() {
 	return _column;
 }
 
-valBox boxGrid::getValue() {
+ValBox BoxGrid::getValue() {
 	return _value;
 }
 
-std::vector<valBox> boxGrid::getPossibleValues() {
+std::vector<ValBox> BoxGrid::getPossibleValues() {
 	return _possibleValue;
 }
 
-void boxGrid::showPossibleValues() {
+void BoxGrid::showPossibleValues() {
 	std::cout << "box(" << _line << ", " << _column << "), possible values : ";
 	for (auto& i : _possibleValue) {
 		switch (i) {
-		case valBox::ONE:
+		case ValBox::ONE:
 			std::cout << "1, ";
 			break;
-		case valBox::TWO:
+		case ValBox::TWO:
 			std::cout << "2, ";
 			break;
-		case valBox::THREE:
+		case ValBox::THREE:
 			std::cout << "3, ";
 			break;
-		case valBox::FOUR:
+		case ValBox::FOUR:
 			std::cout << "4, ";
 			break;
-		case valBox::FIVE:
+		case ValBox::FIVE:
 			std::cout << "5, ";
 			break;
-		case valBox::SIX:
+		case ValBox::SIX:
 			std::cout << "6, ";
 			break;
-		case valBox::SEVEN:
+		case ValBox::SEVEN:
 			std::cout << "7, ";
 			break;
-		case valBox::EIGHT:
+		case ValBox::EIGHT:
 			std::cout << "8, ";
 			break;
-		case valBox::NINE:
+		case ValBox::NINE:
 			std::cout << "9, ";
 			break;
-		case valBox::UNKNOWN:
+		case ValBox::UNKNOWN:
 			std::cout << "x, ";
 			break;
 		}
@@ -64,21 +60,18 @@ void boxGrid::showPossibleValues() {
 	std::cout << std::endl;
 }
 
-
-// Setters
-void boxGrid::setValue(valBox v) {
+void BoxGrid::setValue(ValBox v) {
 	_value = v;
 }
 
-void boxGrid::clearPossibleValues() {
+void BoxGrid::clearPossibleValues() {
 	_possibleValue.clear();
 }
 
-// Methods
-bool boxGrid::hasAValue() {
-	return _value != valBox::UNKNOWN;
+bool BoxGrid::hasAValue() {
+	return _value != ValBox::UNKNOWN;
 }
 
-void boxGrid::addPossibleValue(valBox v) {
+void BoxGrid::addPossibleValue(ValBox v) {
 	_possibleValue.push_back(v);
 }

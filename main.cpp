@@ -13,7 +13,6 @@ bool lineIsCorrect(std::string& str) {
 			processedStr.push_back(c);
 		}
 	}
-	//DEBUG std::cout << "Processed String: " << processedStr << std::endl;
 
 	if (processedStr.length() != 9) {
 		std::cout << "Length not 9 error" << std::endl;
@@ -40,11 +39,9 @@ void fillGrid(Grid& g) {
 		std::cout << "Line " << nbEnteredLines + 1 << ": " << std::endl;
 		std::getline(std::cin, input);
 		if (lineIsCorrect(input)) {
-			//DEBUG	std::cout << "Line " << nbEnteredLines + 1 << ": " << input << " (length " << input.length() << ")" << std::endl;
 			for (index i(0); i < 9; ++i) {
 				g.setValBox(nbEnteredLines, i, g.getValBoxOfChar(input.at(i)));
 			}
-
 			nbEnteredLines++;
 		}
 		else {

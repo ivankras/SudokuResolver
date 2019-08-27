@@ -9,9 +9,9 @@
 Grid::Grid() : _grid() {
 	
 	for (index line(0); line <= 8; line++) {
-		std::vector<boxGrid> v;
+		std::vector<BoxGrid> v;
 		for (index col(0); col <= 8; col++) {
-			boxGrid c(line, col, valBox::UNKNOWN);
+			BoxGrid c(line, col, ValBox::UNKNOWN);
 			v.push_back(c);
 		}
 		_grid.push_back(v);
@@ -19,56 +19,21 @@ Grid::Grid() : _grid() {
 
 }
 
+std::vector<ValBox> Grid::getSquare(BoxGrid& c) {
 
-// Getters
-std::vector<valBox> Grid::getSquare(boxGrid& c) {
-
-	std::vector<valBox > v;
+	std::vector<ValBox > v;
 	index line = c.getLine();
 	index column = c.getColumn();
 
 	//
-	//	this method returns a set of boxes of the parameter square except itself
-	//	coords of the square are the quotient of line/3 and column/3
-	//	the upper-left box of the square has coord 0, 3 or 6
-	//	line : if quotient < 1 square.upperLeftPoint.line = 0
-	//					   > 1                            = 6
-	//					   else                           = 3
-	//	column : if quotient < 1 carre.pointHaucheGauche.column = 0
-	//						 > 1                                = 6
-	//						 else                               = 3
+	//	Coordinates of the square are the quotients line/3 and column/3
+	//	The upper-left box of the square has coordinate 0, 3 or 6
+	//	if quotient < 1 square.upperLeftBoxLine/Column = 0
+	//				> 1								   = 6
+	//				else							   = 3
 	//
-
-	int quotientLine = line/3;
-	int quotientColumn = column/3;
-	index upperLeftBoxLine = 0;
-	index upperLeftBoxColumn = 0;
-
-
-	if (quotientLine < 1) {
-		upperLeftBoxLine = 0;
-	}
-	else {
-		if (quotientLine > 1) {
-			upperLeftBoxLine = 6;
-		}
-		else {
-			upperLeftBoxLine = 3;
-		}
-	}
-
-	if (quotientColumn < 1) {
-		upperLeftBoxColumn = 0;
-	}
-	else {
-		if (quotientColumn > 1) {
-			upperLeftBoxColumn = 6;
-		}
-		else {
-			upperLeftBoxColumn = 3;
-		}
-	}
-
+	index upperLeftBoxLine = (line / 3) * 3;
+	index upperLeftBoxColumn = (column / 3) * 3;
 
 	for (index i = upperLeftBoxLine; i < upperLeftBoxLine + 3; i++) {
 		for (index j = upperLeftBoxColumn; j < upperLeftBoxColumn + 3; j++) {
@@ -81,8 +46,8 @@ std::vector<valBox> Grid::getSquare(boxGrid& c) {
 	return v;
 }
 
-std::vector<valBox> Grid::getLine(boxGrid& c) {
-	std::vector<valBox> v;
+std::vector<ValBox> Grid::getLine(BoxGrid& c) {
+	std::vector<ValBox> v;
 	index line = c.getLine();
 
 	for (index i(0); i <= 8; ++i) {
@@ -93,8 +58,8 @@ std::vector<valBox> Grid::getLine(boxGrid& c) {
 	return v;
 }
 
-std::vector<valBox> Grid::getColumn(boxGrid& c) {
-	std::vector<valBox> v;
+std::vector<ValBox> Grid::getColumn(BoxGrid& c) {
+	std::vector<ValBox> v;
 	index column = c.getColumn();
 
 	for (index i(0); i <= 8; ++i) {
@@ -105,41 +70,13 @@ std::vector<valBox> Grid::getColumn(boxGrid& c) {
 	return v;
 }
 
-std::vector<valBox> Grid::getPossibleValuesForSquare(boxGrid& c) {
-	std::vector<valBox> v;
+std::vector<ValBox> Grid::getPossibleValuesForSquare(BoxGrid& c) {
+	std::vector<ValBox> v;
 	index line = c.getLine();
 	index column = c.getColumn();
 
-	// See getSquare for explanation
-	int quotientLine = line/3;
-	int quotientColumn = column/3;
-	index upperLeftBoxLine = 0;
-	index upperLeftBoxColumn = 0;
-
-
-	if (quotientLine < 1) {
-		upperLeftBoxLine = 0;
-	}
-	else {
-		if (quotientLine > 1) {
-			upperLeftBoxLine = 6;
-		}
-		else {
-			upperLeftBoxLine = 3;
-		}
-	}
-
-	if (quotientColumn < 1) {
-		upperLeftBoxColumn = 0;
-	}
-	else {
-		if (quotientColumn > 1) {
-			upperLeftBoxColumn = 6;
-		}
-		else {
-			upperLeftBoxColumn = 3;
-		}
-	}
+	index upperLeftBoxLine = (line / 3) * 3;
+	index upperLeftBoxColumn = (column / 3) * 3;
 
 	for (index i = upperLeftBoxLine; i < upperLeftBoxLine + 3; i++) {
 		for (index j = upperLeftBoxColumn; j < upperLeftBoxColumn + 3; j++) {
@@ -157,14 +94,14 @@ std::vector<valBox> Grid::getPossibleValuesForSquare(boxGrid& c) {
 	return v;
 }
 
-std::vector<valBox> Grid::getPossibleValuesForLine(boxGrid& c) {
-	std::vector<valBox> v;
+std::vector<ValBox> Grid::getPossibleValuesForLine(BoxGrid& c) {
+	std::vector<ValBox> v;
 	index line = c.getLine();
 
-	//TODO: Check! This is exactly like other code (f.i., getSquare())
 	for (index i(0); i <= 8; ++i) {
 		if (!_grid.at(line).at(i).hasAValue() && i != c.getColumn()) {
 			for (auto& k : _grid.at(line).at(i).getPossibleValues()) {
+				// If these values are not already present they are included
 				if (std::find(v.begin(), v.end(), k) == v.end()) {
 					v.push_back(k);
 				}
@@ -175,14 +112,14 @@ std::vector<valBox> Grid::getPossibleValuesForLine(boxGrid& c) {
 	return v;
 }
 
-std::vector<valBox> Grid::getPossibleValuesForColumn(boxGrid& c) {
-	std::vector<valBox> v;
+std::vector<ValBox> Grid::getPossibleValuesForColumn(BoxGrid& c) {
+	std::vector<ValBox> v;
 	index column = c.getColumn();
 
-	//TODO: Check! This is exactly like other code (f.i., getSquare())
 	for (index i(0); i <= 8; ++i) {
 		if (!_grid.at(i).at(column).hasAValue() && i != c.getLine()) {
 			for (auto& k : _grid.at(i).at(column).getPossibleValues()) {
+				// If these values are not already present they are included
 				if (std::find(v.begin(), v.end(), k) == v.end()) {
 					v.push_back(k);
 				}
@@ -193,25 +130,22 @@ std::vector<valBox> Grid::getPossibleValuesForColumn(boxGrid& c) {
 	return v;
 }
 
-
-// Methods
-
-// TODO: improve efficiency (e.g., associate each value of a line to its column and box, so that the traversal is done only once)
 bool Grid::isCorrect() {
-	// Line & column check
-	std::vector<std::set<valBox>> columnValuesSet(9);
-	std::vector<std::set<valBox>> squareValuesSet(9);
+	
+	std::vector<std::set<ValBox>> columnValuesSet(9);
+	std::vector<std::set<ValBox>> squareValuesSet(9);
 	for (short i(0); i < 9; i++) {
 		columnValuesSet.at(i).clear();
 		squareValuesSet.at(i).clear();
 	}
+
 	for (short lineNb(0); lineNb < 9; lineNb++) {
-		std::vector<boxGrid> line = (this->_grid)[lineNb];
-		std::set<valBox> lineValuesSet{};
+		std::vector<BoxGrid> line = _grid.at(lineNb);
+		std::set<ValBox> lineValuesSet{};
 		lineValuesSet.clear();
 		for (short colNb(0); colNb < 9; colNb++) {
-			valBox v = _grid.at(lineNb).at(colNb).getValue();
-			if (v != valBox::UNKNOWN) {
+			ValBox v = _grid.at(lineNb).at(colNb).getValue();
+			if (v != ValBox::UNKNOWN) {
 				// Line check
 				if (lineValuesSet.count(v) != 0) {
 					return false;
@@ -228,6 +162,7 @@ bool Grid::isCorrect() {
 					return false;
 				}
 
+				// Value not repeated
 				lineValuesSet.insert(v);
 				columnValuesSet.at(colNb).insert(v);
 				squareValuesSet.at(squareNb).insert(v);
@@ -237,23 +172,22 @@ bool Grid::isCorrect() {
 	return true;
 }
 
-
-void Grid::setPossibleValues(boxGrid& c) {
-	std::vector<valBox> vectSquare = getSquare(c);
-	std::vector<valBox> vectLine = getLine(c);
-	std::vector<valBox> vectColumn = getColumn(c);
+void Grid::setPossibleValues(BoxGrid& c) {
+	std::vector<ValBox> vectSquare = getSquare(c);
+	std::vector<ValBox> vectLine = getLine(c);
+	std::vector<ValBox> vectColumn = getColumn(c);
+	
 	if (c.getPossibleValues().empty()) {
 		for (int i(0); i < 9; i++) {
-			valBox valBox_i = getValBoxOfChar(std::to_string(i + 1).at(0));
+			ValBox valBox_i = getValBoxOfChar(std::to_string(i + 1).at(0));
 			if (std::find(vectSquare.begin(), vectSquare.end(), valBox_i) == vectSquare.end() &&
 				std::find(vectLine.begin(), vectLine.end(), valBox_i) == vectLine.end() &&
 				std::find(vectColumn.begin(), vectColumn.end(), valBox_i) == vectColumn.end()) {
 				c.addPossibleValue(valBox_i);
 			}
 		}
-	}
-	else {
-		std::vector<valBox > vectPossibleValues = c.getPossibleValues();
+	} else {
+		std::vector<ValBox> vectPossibleValues = c.getPossibleValues();
 		c.clearPossibleValues();
 		for (auto i : vectPossibleValues) {
 			if (std::find(vectSquare.begin(), vectSquare.end(), i) == vectSquare.end() &&
@@ -265,65 +199,63 @@ void Grid::setPossibleValues(boxGrid& c) {
 	}
 }
 
-char Grid::getCharOfValBox(valBox v) {
+char Grid::getCharOfValBox(ValBox v) {
 	switch (v) {
-	case valBox::ONE:
+	case ValBox::ONE:
 		return '1';
-	case valBox::TWO:
+	case ValBox::TWO:
 		return '2';
-	case valBox::THREE:
+	case ValBox::THREE:
 		return '3';
-	case valBox::FOUR:
+	case ValBox::FOUR:
 		return '4';
-	case valBox::FIVE:
+	case ValBox::FIVE:
 		return '5';
-	case valBox::SIX:
+	case ValBox::SIX:
 		return '6';
-	case valBox::SEVEN:
+	case ValBox::SEVEN:
 		return '7';
-	case valBox::EIGHT:
+	case ValBox::EIGHT:
 		return '8';
-	case valBox::NINE:
+	case ValBox::NINE:
 		return '9';
-	case valBox::UNKNOWN:
+	case ValBox::UNKNOWN:
 		return 'x';
-
 	default:
-		std::cout << "Grid::fillGrid [ switch wrong value entered ] !";
+		std::cout << "Grid::fillGrid switch wrong value entered!";
 		return '0';
 	}
 }
 
-valBox Grid::getValBoxOfChar(char c) {
+ValBox Grid::getValBoxOfChar(char c) {
 	switch (c) {
 	case '1':
-		return valBox::ONE;
+		return ValBox::ONE;
 	case '2':
-		return valBox::TWO;
+		return ValBox::TWO;
 	case '3':
-		return valBox::THREE;
+		return ValBox::THREE;
 	case '4':
-		return valBox::FOUR;
+		return ValBox::FOUR;
 	case '5':
-		return valBox::FIVE;
+		return ValBox::FIVE;
 	case '6':
-		return valBox::SIX;
+		return ValBox::SIX;
 	case '7':
-		return valBox::SEVEN;
+		return ValBox::SEVEN;
 	case '8':
-		return valBox::EIGHT;
+		return ValBox::EIGHT;
 	case '9':
-		return valBox::NINE;
+		return ValBox::NINE;
 	case 'x':
-		return valBox::UNKNOWN;
-
+		return ValBox::UNKNOWN;
 	default:
 		std::cout << "Grid::fillGrid switch wrong value entered : " << c << std::endl;
-		return valBox::UNKNOWN;
+		return ValBox::UNKNOWN;
 	}
 }
 
-void Grid::setValBox(index line, index column, valBox v) {
+void Grid::setValBox(index line, index column, ValBox v) {
 	_grid.at(line).at(column).setValue(v);
 }
 
@@ -348,8 +280,8 @@ void Grid::showGrid() {
 			else {
 				separator = " ";
 			}
-			valBox v = _grid.at(i).at(j).getValue();
-			if (v == valBox::UNKNOWN)
+			ValBox v = _grid.at(i).at(j).getValue();
+			if (v == ValBox::UNKNOWN)
 				std::cout << " " << separator;
 			else
 				std::cout << getCharOfValBox(v) << separator;
@@ -377,7 +309,7 @@ bool Grid::resolve() {
 
 	for (auto& i : _grid) {
 		for (auto& j : i) {
-			// If it is the only possible value it is modified
+			// If it is the only possible value, it is modified
 			if (!j.hasAValue() && j.getPossibleValues().size() == 1) {
 				std::cout << "Method 1 : box modification (" << j.getLine() << ", " << j.getColumn() << "), with " << getCharOfValBox(j.getPossibleValues()[0]) << std::endl;
 				j.setValue(j.getPossibleValues()[0]);
@@ -385,9 +317,9 @@ bool Grid::resolve() {
 				res = true;
 			} else {
 				// Otherwise, check if the value is only possible for that place in the line, column or square
-				std::vector<valBox> cgSquare = getPossibleValuesForSquare(j);
-				std::vector<valBox> cgColumn = getPossibleValuesForColumn(j);
-				std::vector<valBox> cgLine = getPossibleValuesForLine(j);
+				std::vector<ValBox> cgSquare = getPossibleValuesForSquare(j);
+				std::vector<ValBox> cgColumn = getPossibleValuesForColumn(j);
+				std::vector<ValBox> cgLine = getPossibleValuesForLine(j);
 
 				setPossibleValues(j);
 
