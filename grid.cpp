@@ -132,6 +132,7 @@ std::vector<ValBox> Grid::getPossibleValuesForColumn(BoxGrid& c) {
 
 bool Grid::isCorrect() {
 	
+	short count{ 0 };
 	std::vector<std::set<ValBox>> columnValuesSet(9);
 	std::vector<std::set<ValBox>> squareValuesSet(9);
 	for (short i(0); i < 9; i++) {
@@ -139,11 +140,11 @@ bool Grid::isCorrect() {
 		squareValuesSet.at(i).clear();
 	}
 
-	for (short lineNb(0); lineNb < 9; lineNb++) {
+	for (short lineNb{ 0 }; lineNb < 9; lineNb++) {
 		std::vector<BoxGrid> line = _grid.at(lineNb);
 		std::set<ValBox> lineValuesSet{};
 		lineValuesSet.clear();
-		for (short colNb(0); colNb < 9; colNb++) {
+		for (short colNb{ 0 }; colNb < 9; colNb++) {
 			ValBox v = _grid.at(lineNb).at(colNb).getValue();
 			if (v != ValBox::UNKNOWN) {
 				// Line check
@@ -163,13 +164,14 @@ bool Grid::isCorrect() {
 				}
 
 				// Value not repeated
+				count++;
 				lineValuesSet.insert(v);
 				columnValuesSet.at(colNb).insert(v);
 				squareValuesSet.at(squareNb).insert(v);
 			}
 		}
 	}
-	return true;
+	return (count >= 17);
 }
 
 void Grid::setPossibleValues(BoxGrid& c) {

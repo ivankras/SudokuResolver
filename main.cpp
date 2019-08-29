@@ -178,7 +178,9 @@ int main() {
 	while (correctGrid.at(0) != 'y' && correctGrid.at(0) != 'Y') {
 		fillGrid(g);
 		while (!g.isCorrect()) {
-			std::cout << "Error(s) in the provided grid.\nCheck that each number in a box is unique in its square (3x3), line and column." << std::endl;
+			std::cout << "Error(s) in the provided grid\n"
+				<< "Check that each number in a box is unique in its square (3x3), line and column\n"
+				<< "Also, the grid need to have at least 17 clues; otherwise, it does not have a unique solution" << std::endl;
 			fillGrid(g);	
 		}
 		g.showGrid();
